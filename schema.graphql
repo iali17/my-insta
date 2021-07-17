@@ -1,0 +1,73 @@
+schema {
+  query: RootQueryType
+  mutation: RootMutationType
+}
+
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+type Comment {
+  id: ID!
+  text: String!
+  user: String!
+}
+
+"""Input payload for creating a comment"""
+input CommentInsertType {
+  user: String!
+  text: String
+  postId: ID!
+}
+
+scalar Cursor
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: Cursor
+  endCursor: Cursor
+}
+
+type Post {
+  id: ID!
+  user: String!
+  description: String
+  image_url: String!
+  comments: [Comment]
+}
+
+type PostConnection {
+  edges: [PostEdge]
+  pageInfo: PageInfo!
+}
+
+type PostEdge {
+  cursor: Cursor
+  node: Post
+}
+
+"""Input payload for creating a post"""
+input PostInsertType {
+  user: String!
+  image_url: String!
+  description: ID!
+}
+
+type RootMutationType {
+  insertOneComment(input: CommentInsertType!): Comment
+  updatePost(id: ID, comments: [ID], user: String, image_url: String): Post
+  newPost(input: PostInsertType!): Post
+}
+
+type RootQueryType {
+  viewer: Viewer
+}
+
+type Viewer {
+  id: ID!
+  allPosts(first: Int, last: Int, before: Cursor, after: Cursor): PostConnection
+}
+
