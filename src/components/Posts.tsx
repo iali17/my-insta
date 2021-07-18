@@ -182,9 +182,14 @@ function CommentList(props: {
 
 function Picture(props: { picture: string }) {
   const img = () => {
-    if (props.picture) {
-      return (<img className="card-img-top user-select-none" src={props.picture} alt="This could be us"/>);
-    } else {
+    try {
+      let url = new URL(props.picture);
+      let pathname = url.pathname.split('.')
+      if (["jpeg", "gif", "png", "apng", "svg", "bmp", "bmp ico", "png ico"].includes(pathname[pathname.length - 1])) {
+        return (<img className="card-img-top user-select-none" src={props.picture} alt="This could be us"/>);
+      }
+      throw Error("Not a image or gif")
+    } catch(e) {
       return(<img className="card-img-top user-select-none" src={Placeholder} alt={"You're a genie!"} />);
     }
   }
