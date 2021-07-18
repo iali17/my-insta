@@ -1,5 +1,5 @@
 # My-insta
-Nothing too crazy. Just a simple go at a instagram like interface that uses plain javascript, typescript and React for the frontend and MongoDB with Relay for the backend.
+Nothing too crazy. Just a simple go at an instagram like interface that uses plain javascript, typescript and React for the frontend and MongoDB with Relay for the backend.
 
 This was built to learn and practice React with Relay and thought what better than to "recreate" a facebook product with facebook dev tools.
 

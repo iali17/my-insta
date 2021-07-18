@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { PostInsertType, NewPostScreenAddMutation } from './__generated__/NewPostScreenAddMutation.graphql';
 
 import RelayEnvironment from '../RelayEnvironment';
+import { Post } from './Posts'
 
 
 function commitCreatePostMutation(
@@ -48,6 +49,15 @@ export default function NewPostScreen() {
     history.go(0);
   }
 
+  // TODO: user singleton or something
+  let postArgs = {
+    id:"postPreview",
+    user:"bosco",
+    image_url:url,
+    description:description,
+    comments: []
+  }
+
   return(
     <Container>
       <Row>
@@ -55,7 +65,8 @@ export default function NewPostScreen() {
           <NewPostForm setUrl={setUrl} setDescription={setDescription} formSubmit={formSubmit}/>
         </Col>
         <Col>
-        This will be a preview soon...
+          <h2>Preview</h2>
+          <Post post={postArgs}></Post>
         </Col>
       </Row>
     </Container>

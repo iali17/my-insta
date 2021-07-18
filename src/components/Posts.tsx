@@ -12,6 +12,7 @@ import { CommentInsertType, PostsAddCommentMutation } from './__generated__/Post
 import AutoSizedTextArea from './AutoSizedTextArea';
 import { HomeScreenQuery } from './HomeScreen';
 import RelayEnvironment from '../RelayEnvironment';
+import Placeholder from '../static/placeholder.png'
 
 
 function commitCreateCommentMutation(
@@ -67,7 +68,7 @@ export function PostList(props: { preloadedQuery: PreloadedQuery<OperationType, 
 }
 
 
-function Post(props: { post: nodeType }) {
+export function Post(props: { post: nodeType }) {
   const [comments, setComments] = useState(props.post.comments || [])
 
   const addComment = (newComment: {id: string, user: string, text: string}) => {
@@ -180,9 +181,17 @@ function CommentList(props: {
 
 
 function Picture(props: { picture: string }) {
+  const img = () => {
+    if (props.picture) {
+      return (<img className="card-img-top user-select-none" src={props.picture} alt="This could be us"/>);
+    } else {
+      return(<img className="card-img-top user-select-none" src={Placeholder} alt={"You're a genie!"} />);
+    }
+  }
+
   return (
     <div className="mx-auto d-flex align-items-center" style={{ height: '600px', width: '100%', overflow: 'hidden' }}>
-      <img className="card-img-top user-select-none" src={props.picture} alt="This could be you" />
+      {img()}
     </div>
   );
 }
