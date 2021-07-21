@@ -1,14 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { auth } from '../firebase'
 import firebase from "firebase/app";
+import { BasicChildProp } from "../common/types"
 
 type ContextProps = {
   signup: (email: string, password: string) => void
   currentUser: firebase.User | null
-}
-
-type ChildrenProps = {
-  children: React.ReactNode;
 }
 
 const AuthContext = React.createContext<ContextProps | null>(null)
@@ -21,7 +18,7 @@ export function useAuth() {
   return authContext
 }
 
-export function AuthProvider({ children }: ChildrenProps) {
+export function AuthProvider({ children }: BasicChildProp) {
   const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
 
   function signup(email: string, password: string) {
@@ -44,7 +41,7 @@ export function AuthProvider({ children }: ChildrenProps) {
 
   return (
     <AuthContext.Provider value={value}>
-      {children }
+      { children }
     </AuthContext.Provider>
   )
 }
