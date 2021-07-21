@@ -13,6 +13,7 @@ import RelayEnvironment from '../RelayEnvironment';
 import { HomeScreen } from './HomeScreen';
 import NewPostScreen from './NewPostScreen';
 import Signup from './authentication/Signup';
+import Login from './authentication/Login';
 import { AuthProvider } from "../contexts/AuthContext";
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
             <Route path="/" exact component={HomeScreen}></Route>
             <Route path="/new/post" component={NewPostScreen}></Route>
             <Route path="/signup" component={Signup}></Route>
-            <Route path="/login" component={Signup}></Route>
+            <Route path="/login" component={Login}></Route>
           </Switch>
         </Router>
       </AuthProvider>

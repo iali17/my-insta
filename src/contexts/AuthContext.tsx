@@ -4,7 +4,8 @@ import firebase from "firebase/app";
 import { BasicChildProp } from "../common/types"
 
 type ContextProps = {
-  signup: (email: string, password: string) => void
+  signup: (email: string, password: string) => Promise<firebase.auth.UserCredential>
+  login: (email: string, password: string) => Promise<firebase.auth.UserCredential>
   currentUser: firebase.User | null
 }
 
@@ -22,7 +23,11 @@ export function AuthProvider({ children }: BasicChildProp) {
   const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
 
   function signup(email: string, password: string) {
-    auth.createUserWithEmailAndPassword(email, password)
+    return auth.createUserWithEmailAndPassword(email, password)
+  }
+
+  function login(email:string, password:string) {
+    return auth.signInWithEmailAndPassword(email, password);
   }
 
   useEffect(() => {
@@ -36,7 +41,8 @@ export function AuthProvider({ children }: BasicChildProp) {
 
   const value = {
     currentUser,
-    signup
+    signup,
+    login
   }
 
   return (
