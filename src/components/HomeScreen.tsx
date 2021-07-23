@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import {
   loadQuery,
 } from 'react-relay/hooks';
+import { useAuth } from '../contexts/AuthContext';
 
 export const HomeScreenQuery = graphql`
 query HomeScreenQuery {
@@ -37,12 +38,14 @@ const preloadedHomeScreenQuery = loadQuery(RelayEnvironment, HomeScreenQuery, {}
 
 export function HomeScreen() {
   const history = useHistory();
+  const { logout } = useAuth();
 
   return(
     <Container>
       <Row>
         <Col>
           <Button onClick={() => history.push('/new/post')}>New Post</Button>
+          <Button onClick={logout}>Logout</Button>
         </Col>
       </Row>
       <Row className="justify-content-md-center">
