@@ -14,7 +14,9 @@ import { HomeScreen } from './HomeScreen';
 import NewPostScreen from './NewPostScreen';
 import Signup from './authentication/Signup';
 import Login from './authentication/Login';
+import ForgotPassword from './authentication/ForgotPassword';
 import { AuthProvider } from "../contexts/AuthContext";
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   const environment = RelayEnvironment;
@@ -23,10 +25,11 @@ function App() {
       <AuthProvider>
         <Router>
           <Switch>
-            <Route path="/" exact component={HomeScreen}></Route>
-            <Route path="/new/post" component={NewPostScreen}></Route>
+            <ProtectedRoute path="/" exact component={HomeScreen}></ProtectedRoute>
+            <ProtectedRoute path="/new/post" component={NewPostScreen}></ProtectedRoute>
             <Route path="/signup" component={Signup}></Route>
             <Route path="/login" component={Login}></Route>
+            <Route path='/forgot-password' component={ForgotPassword}></Route>
           </Switch>
         </Router>
       </AuthProvider>
