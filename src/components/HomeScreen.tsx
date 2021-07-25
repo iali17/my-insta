@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { PostList } from './Posts';
+import Navbar from './Navbar';
 import RelayEnvironment from '../RelayEnvironment';
 import { graphql } from 'babel-plugin-relay/macro';
 import { useHistory } from 'react-router-dom';
@@ -41,13 +42,9 @@ export function HomeScreen() {
   const { logout } = useAuth();
 
   return(
+    <>
+    <Navbar></Navbar>
     <Container>
-      <Row>
-        <Col>
-          <Button onClick={() => history.push('/new/post')}>New Post</Button>
-          <Button onClick={logout}>Logout</Button>
-        </Col>
-      </Row>
       <Row className="justify-content-md-center">
         <Col className="col-6">
           <Suspense fallback={'Loading posts...'}>
@@ -56,5 +53,6 @@ export function HomeScreen() {
         </Col>
       </Row>
     </Container>
+    </>
   )
 }
