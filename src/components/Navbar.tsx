@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown, Container, Form, FormControl, Button } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
-import { useHistory } from 'react-router-dom';
 import { Search } from 'react-bootstrap-icons';
 
 export default function NavigationBar() {
