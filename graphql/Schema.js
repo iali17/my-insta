@@ -14,6 +14,7 @@ import { ObjectID } from 'bson';
 import Cursor from './Cursor.js'
 import { getPosts, updateOnePost, createPost } from './Posts.js'
 import { getCommentsWithIds, createComment } from './Comments.js'
+import { createUser } from './User.js'
 
 export function createConnectionArguments() {
   return {
@@ -64,6 +65,25 @@ export const PostInsertType = new GraphQLInputObjectType({
   })
 })
 
+export const UserInsertType = new GraphQLInputObjectType({
+  name: 'UserInsertType',
+  description: 'Input payload for creating a user',
+  fields: () => ({
+    username: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    description: {
+      type: GraphQLString,
+    },
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    email: {
+      type: new GraphQLNonNull(GraphQLString),
+    }
+  })
+})
+
 export function postUpdateInput() {
   return {
     id: {
@@ -107,6 +127,30 @@ export const PageInfo = new GraphQLObjectType({
       }
     }
   }
+});
+
+const User = new GraphQLObjectType({
+  name: 'User',
+  fields: () => ({
+    id: {
+      type: new GraphQLNonNull(GraphQLID),
+      resolve(parent) {
+        return parent._id;
+      },
+    },
+    username: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    description: {
+      type: GraphQLString,
+    },
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    email: {
+      type: new GraphQLNonNull(GraphQLString),
+    }
+  })
 });
 
 const Comment = new GraphQLObjectType({
@@ -260,6 +304,18 @@ const Schema = new GraphQLSchema({
         resolve(parent, args, { mongodb }) {
           let postArgs = {user: args.input.user, image_url: args.input.image_url, description: args.input.description}
           return createPost(mongodb, postArgs);
+        }
+      },
+      newUser: {
+        type: User,
+        args: {
+          input: {
+            type: new GraphQLNonNull(UserInsertType)
+          }
+        },
+        resolve(parent, args, { mongodb }) {
+          let userArgs = {username: args.input.username, description: args.input.description, name: args.input.name, email: args.input.email}
+          return createUser(mongodb, userArgs);
         }
       }
     }

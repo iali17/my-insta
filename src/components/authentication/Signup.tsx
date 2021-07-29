@@ -1,9 +1,36 @@
 import React, { useRef, FormEvent, useState } from 'react';
 import { Form, Card, Button, Alert } from 'react-bootstrap';
+import { graphql } from 'babel-plugin-relay/macro';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useHistory } from 'react-router-dom';
 import AuthenticationWrapper from "./StylingWrapper";
+import type { Environment } from 'react-relay';
+import { commitMutation } from 'react-relay';
+
+import { UserInsertType, SignupUserAddMutation } from './__generated__/SignupUserAddMutation.graphql';
+
+
+function commitCreateCommentMutation(
+  environment: Environment,
+  input: UserInsertType,
+) {
+  return commitMutation<SignupUserAddMutation>(environment, {
+    mutation: graphql`
+      mutation SignupUserAddMutation($input: UserInsertType!) {
+        newUser(input: $input) {
+          id
+          username
+        }
+      }
+    `,
+    variables: {input},
+    onCompleted: response => {
+      console.log(response)
+    } /* Mutation completed */,
+    onError: error => {} /* Mutation errored */,
+  });
+}
 
 export default function Signup() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -25,8 +52,10 @@ export default function Signup() {
 
     setLoading(true);
     try {
+      // TODO: need to check if username is unique. email is automatically checked.
       if (emailRef.current && passwordRef.current) {
         await signup(emailRef.current.value, passwordRef.current.value)
+        // TODO: create a unique username in mongodb -> associate with email
         history.push('/')
       }
     } catch {
