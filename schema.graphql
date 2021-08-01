@@ -60,10 +60,27 @@ type RootMutationType {
   insertOneComment(input: CommentInsertType!): Comment
   updatePost(id: ID, comments: [ID], user: String, image_url: String): Post
   newPost(input: PostInsertType!): Post
+  newUser(input: UserInsertType!): User
 }
 
 type RootQueryType {
   viewer: Viewer
+}
+
+type User {
+  id: ID!
+  username: String!
+  description: String
+  name: String!
+  email: String!
+}
+
+"""Input payload for creating a user"""
+input UserInsertType {
+  username: String!
+  description: String
+  name: String!
+  email: String!
 }
 
 type Viewer {

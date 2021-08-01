@@ -47,7 +47,10 @@ export function AuthProvider({ children }: BasicChildProp) {
       setLoading(false);
     })
 
-    return unsubscribe;
+    return () => {
+      // Unmounting
+      unsubscribe();
+    };
   }, [])
   
 
