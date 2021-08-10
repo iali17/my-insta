@@ -68,10 +68,9 @@ export default function Login() {
   }
 
   useEffect(() => {
-    async function loginUsingFirebase() {
+    async function loginUsingFirebase(username: string) {
       try {
         await login(username, passwordRef.current!.value)
-        console.log("i hate it here")
         history.push('/')
       } catch(error: any) {
         setError(error.message);
@@ -80,7 +79,8 @@ export default function Login() {
       }
     }
     if (username !== '') {
-      loginUsingFirebase()
+      loginUsingFirebase(username);
+      setUsername('');
     }
   }, [username, history, login])
 
