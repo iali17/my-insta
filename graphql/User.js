@@ -22,3 +22,15 @@ export async function createUser(mongodb, {username, email, description, name}) 
   return newUser.ops[0];
 }
 
+export async function getUser(mongodb, {username}) {
+  const collection = await mongodb.collection('users');
+  let user;
+  try {
+    user = await collection.findOne({"username": username});
+  } catch (err) {
+    // catch any generic error
+    throw err
+  }
+
+  return user;
+}

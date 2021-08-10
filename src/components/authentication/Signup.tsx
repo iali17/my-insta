@@ -1,4 +1,4 @@
-import React, { useRef, FormEvent, useState, useEffect } from 'react';
+import React, { useRef, FormEvent, useState } from 'react';
 import { Form, Card, Button, Alert } from 'react-bootstrap';
 import { graphql } from 'babel-plugin-relay/macro';
 import { Link } from 'react-router-dom';
@@ -56,8 +56,9 @@ export default function Signup() {
           history.push('/')
         }
       }
-    } catch {
-      setError("Failed to create an Account. PepeHands");
+    } catch (error: any) {
+      // firebase has a nicely formatted message when it fails
+      setError(error.message);
     }
     setLoading(false);
   }

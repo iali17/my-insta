@@ -14,7 +14,7 @@ import { ObjectID } from 'bson';
 import Cursor from './Cursor.js'
 import { getPosts, updateOnePost, createPost } from './Posts.js'
 import { getCommentsWithIds, createComment } from './Comments.js'
-import { createUser } from './User.js'
+import { createUser, getUser } from './User.js'
 
 export function createConnectionArguments() {
   return {
@@ -249,6 +249,17 @@ const Viewer = new GraphQLObjectType({
         return (getPosts(mongodb, args));
       },
     },
+    user: {
+      type: User,
+      args: {
+        username: {
+          type: new GraphQLNonNull(GraphQLString)
+        }
+      },
+      resolve(parent, args, { mongodb }) {
+        return getUser(mongodb, args);
+      }
+    }
   }),
 });
 
