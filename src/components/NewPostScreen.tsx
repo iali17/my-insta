@@ -9,6 +9,8 @@ import { PostInsertType, NewPostScreenAddMutation } from './__generated__/NewPos
 
 import RelayEnvironment from '../RelayEnvironment';
 import { Post } from './Posts'
+import Navbar from './Navbar';
+
 
 
 function commitCreatePostMutation(
@@ -59,16 +61,19 @@ export default function NewPostScreen() {
   }
 
   return(
-    <Container>
-      <Row>
-        <Col>
-          <NewPostForm setUrl={setUrl} setDescription={setDescription} formSubmit={formSubmit}/>
-        </Col>
-        <Col>
-          <h2>Preview</h2>
-          <Post post={postArgs}></Post>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <Navbar></Navbar>
+      <Container>
+        <Row>
+          <Col>
+            <NewPostForm setUrl={setUrl} setDescription={setDescription} formSubmit={formSubmit}/>
+          </Col>
+          <Col>
+            <h2>Preview</h2>
+            <Post post={postArgs}></Post>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 }
