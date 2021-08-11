@@ -22,11 +22,11 @@ export async function createUser(mongodb, {username, email, description, name}) 
   return newUser.ops[0];
 }
 
-export async function getUser(mongodb, {username}) {
+export async function getUser(mongodb, {username, email}) {
   const collection = await mongodb.collection('users');
   let user;
   try {
-    user = await collection.findOne({"username": username});
+    user = await collection.findOne({"$or": [{"username": username}, {"email": email }]});
   } catch (err) {
     // catch any generic error
     throw err

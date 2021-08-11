@@ -253,7 +253,10 @@ const Viewer = new GraphQLObjectType({
       type: User,
       args: {
         username: {
-          type: new GraphQLNonNull(GraphQLString)
+          type: GraphQLString
+        },
+        email: {
+          type: GraphQLString
         }
       },
       resolve(parent, args, { mongodb }) {

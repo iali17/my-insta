@@ -70,6 +70,8 @@ export function PostList(props: { preloadedQuery: PreloadedQuery<OperationType, 
 
 export function Post(props: { post: nodeType }) {
   const [comments, setComments] = useState(props.post.comments || [])
+  const username = window.localStorage.getItem('username')
+  if (!username) throw Error("Username was not set! try re-logging.")
 
   const addComment = (newComment: {id: string, user: string, text: string}) => {
     setComments([
@@ -88,8 +90,7 @@ export function Post(props: { post: nodeType }) {
       <Actions />
       <p><b>{props.post.user}</b> {props.post.description}</p>
       <CommentList comments={comments} />
-      {/* TODO: the user that adds this comment should not be the post user haha */}
-      <CommentAdd postId={props.post.id} user={props.post.user} addComment={addComment} />
+      <CommentAdd postId={props.post.id} user={username} addComment={addComment} />
     </div>
   );
 }

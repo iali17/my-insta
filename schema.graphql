@@ -86,6 +86,6 @@ input UserInsertType {
 type Viewer {
   id: ID!
   allPosts(first: Int, last: Int, before: Cursor, after: Cursor): PostConnection
-  user(username: String!): User
+  user(username: String, email: String): User
 }
 

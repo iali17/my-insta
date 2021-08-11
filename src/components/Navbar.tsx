@@ -4,7 +4,15 @@ import { useAuth } from '../contexts/AuthContext';
 import { Search } from 'react-bootstrap-icons';
 
 export default function NavigationBar() {
-  const { currentUser, logout } = useAuth();
+  const { logout } = useAuth();
+  const username = window.localStorage.getItem('username')
+  if (!username) throw Error("Username was not set! try re-logging.")
+
+  const logoutFunction = () => {
+    window.localStorage.removeItem('username')
+    logout()
+  }
+
   return (
     <Navbar variant="dark" bg="dark" expand="lg" sticky="top">
       <Container>
@@ -22,10 +30,10 @@ export default function NavigationBar() {
           </Form>
           <Nav className="ms-auto">
             <Nav.Link href="/new/post">New Post</Nav.Link>
-            <NavDropdown title={currentUser!.email} id="basic-nav-dropdown">
+            <NavDropdown title={username} id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+              <NavDropdown.Item onClick={logoutFunction}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

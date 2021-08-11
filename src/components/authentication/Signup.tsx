@@ -53,6 +53,7 @@ export default function Signup() {
       if (emailRef.current && passwordRef.current) {
         if (!error) {
           await signup(emailRef.current.value, passwordRef.current.value)
+          window.localStorage.setItem('username', usernameRef.current!.value)
           history.push('/')
         }
       }

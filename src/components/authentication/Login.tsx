@@ -1,5 +1,6 @@
 import React, { useRef, FormEvent, useState, useEffect } from 'react';
 import type { LoginGetEmailQuery } from './__generated__/LoginGetEmailQuery.graphql'
+import type { LoginGetUsernameQuery } from './__generated__/LoginGetUsernameQuery.graphql'
 import { Form, Card, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -10,11 +11,21 @@ import { graphql } from 'babel-plugin-relay/macro';
 import RelayEnvironment from '../../RelayEnvironment';
 
 
-const query = graphql`
+const getEmailFromUsername = graphql`
   query LoginGetEmailQuery($input: String!) {
     viewer {
       user(username: $input) {
         email
+      }
+    }
+  }
+`;
+
+const getUsernameFromEmail = graphql`
+  query LoginGetUsernameQuery($input: String!) {
+    viewer {
+      user(email: $input) {
+        username
       }
     }
   }
@@ -42,12 +53,27 @@ export default function Login() {
 
     setLoading(true);
     if (loginRef.current && passwordRef.current && validateEmail(loginRef.current.value)) {
-      setUsername(loginRef.current.value)
+      setUsername(loginRef.current.value);
       setLoading(false);
+      fetchQuery<LoginGetUsernameQuery>(
+        RelayEnvironment,
+        getUsernameFromEmail,
+        {input: loginRef.current!.value},
+      )
+      .subscribe({
+        next: (data) => {
+          window.localStorage.setItem('username', data.viewer!.user!.username)
+        },
+        error: (error: any) => {
+          // catch all for errors in the query. Should be very unlikely unless server down
+          setError(error)
+        }
+      });
     } else {
+      window.localStorage.setItem('username', loginRef.current!.value)
       fetchQuery<LoginGetEmailQuery>(
         RelayEnvironment,
-        query,
+        getEmailFromUsername,
         {input: loginRef.current!.value},
       )
       .subscribe({

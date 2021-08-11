@@ -38,23 +38,23 @@ function commitCreatePostMutation(
 
 export default function NewPostScreen() {
   const history = useHistory();
-  let [url, setUrl] = useState('');
-  let [description, setDescription] = useState('');
+  const [url, setUrl] = useState('');
+  const [description, setDescription] = useState('');
+  const username = window.localStorage.getItem('username')
+  if (!username) throw Error("Username was not set! try re-logging.")
 
   const formSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    //TODO: when we get a singleton for logged in user or something change this
-    let args = {user: "bosco", image_url: url, description: description};
+    let args = {user: username, image_url: url, description: description};
     commitCreatePostMutation(RelayEnvironment, args);
     history.push('/');
     history.go(0);
   }
 
-  // TODO: user singleton or something
   let postArgs = {
     id:"postPreview",
-    user:"bosco",
+    user:username,
     image_url:url,
     description:description,
     comments: []
