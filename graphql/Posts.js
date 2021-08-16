@@ -38,7 +38,7 @@ export async function createPost(mongodb, {user, image_url, description}) {
   const collection = await mongodb.collection('posts');
   let newPost;
   try {
-    newPost = await collection.insertOne({"image_url": image_url, "user": user, "description": description});
+    newPost = await collection.insertOne({"image_url": image_url, "user": user, "description": description, date_posted: new Date()});
   } catch (e) {
     console.log(e)
   }

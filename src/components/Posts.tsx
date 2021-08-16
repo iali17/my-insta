@@ -42,6 +42,7 @@ type nodeType = {
   readonly id: string;
   readonly user: string;
   readonly image_url: string;
+  readonly date_posted: string;
   readonly description: string | null;
   readonly comments: readonly ({
     readonly id: string;
@@ -57,7 +58,8 @@ export function PostList(props: { preloadedQuery: PreloadedQuery<OperationType, 
     return (
       <div>
           {data.viewer.allPosts.edges?.map((post) => (
-            <Post key={post?.node!.id!} post={post?.node!} />
+            // the as nodeType is to cast the unknown in the Date to a string. 
+            <Post key={post?.node!.id!} post={post?.node! as nodeType} />
           ))}
       </div>
     );
@@ -89,6 +91,7 @@ export function Post(props: { post: nodeType }) {
       <Picture picture={props.post.image_url} />
       <Actions />
       <p><b>{props.post.user}</b> {props.post.description}</p>
+      <small>{new Date(props.post.date_posted).toString()}</small>
       <CommentList comments={comments} />
       <CommentAdd postId={props.post.id} user={username} addComment={addComment} />
     </div>

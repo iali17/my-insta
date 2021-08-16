@@ -56,6 +56,7 @@ export default function NewPostScreen() {
     id:"postPreview",
     user:username,
     image_url:url,
+    date_posted: (new Date()).toString(),
     description:description,
     comments: []
   }

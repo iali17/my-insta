@@ -18,6 +18,7 @@ query HomeScreenQuery {
           user
           image_url
           description
+          date_posted
           comments {
             id
             user

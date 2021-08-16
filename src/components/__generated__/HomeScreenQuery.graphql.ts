@@ -13,6 +13,7 @@ export type HomeScreenQueryResponse = {
                     readonly user: string;
                     readonly image_url: string;
                     readonly description: string | null;
+                    readonly date_posted: unknown;
                     readonly comments: ReadonlyArray<{
                         readonly id: string;
                         readonly user: string;
@@ -43,6 +44,7 @@ query HomeScreenQuery {
           user
           image_url
           description
+          date_posted
           comments {
             id
             user
@@ -112,6 +114,13 @@ v2 = {
               "args": null,
               "kind": "ScalarField",
               "name": "description",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "date_posted",
               "storageKey": null
             },
             {
@@ -206,14 +215,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "521defa2485faa3fa6ab2b1f13ff36a4",
+    "cacheID": "29a2121a4d66c741e062c3177e468730",
     "id": null,
     "metadata": {},
     "name": "HomeScreenQuery",
     "operationKind": "query",
-    "text": "query HomeScreenQuery {\n  viewer {\n    allPosts {\n      edges {\n        node {\n          id\n          user\n          image_url\n          description\n          comments {\n            id\n            user\n            text\n          }\n        }\n      }\n      pageInfo {\n        hasNextPage\n      }\n    }\n    id\n  }\n}\n"
+    "text": "query HomeScreenQuery {\n  viewer {\n    allPosts {\n      edges {\n        node {\n          id\n          user\n          image_url\n          description\n          date_posted\n          comments {\n            id\n            user\n            text\n          }\n        }\n      }\n      pageInfo {\n        hasNextPage\n      }\n    }\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'bfe9984429840910a3a6ed4c595b7961';
+(node as any).hash = '040dba55646f87709dea09f38b126e67';
 export default node;

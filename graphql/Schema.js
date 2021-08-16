@@ -9,6 +9,9 @@ import {
   GraphQLBoolean,
   GraphQLInt
 } from 'graphql';
+import {
+  GraphQLDateTime
+} from 'graphql-scalars'
 import { ObjectID } from 'bson';
 
 import Cursor from './Cursor.js'
@@ -185,6 +188,9 @@ const Post = new GraphQLObjectType({
     },
     description: {
       type: GraphQLString,
+    },
+    date_posted: {
+      type: new GraphQLNonNull(GraphQLDateTime),
     },
     image_url: {
       type: new GraphQLNonNull(GraphQLString),
